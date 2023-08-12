@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+const predefinedTags = ['Laisse obligatoire', 'Accessible par temps pluvieux', 'Accessible en période de chasse', 'Dans la forêt', 'En plaine', 'Accès à l\'eau'];
 
 const AddPlaceForm = () => {
   const [name, setName] = useState('');
@@ -38,7 +39,23 @@ const AddPlaceForm = () => {
         <input type="number" value={time} onChange={e => setTime(e.target.value)} />
 
         <label>Tags:</label>
-        <input type="text" value={tags} onChange={e => setTags(e.target.value)} />
+        {predefinedTags.map(tag => (
+          <div key={tag}>
+            <input
+              type="checkbox"
+              value={tag}
+              checked={tags.includes(tag)}
+              onChange={e => {
+                if (e.target.checked) {
+                  setTags([...tags, tag]);
+                } else {
+                  setTags(tags.filter(t => t !== tag));
+                }
+              }}
+            />
+            <label>{tag}</label>
+          </div>
+        ))}
 
         <button type="submit">Ajouter</button>
       </form>
