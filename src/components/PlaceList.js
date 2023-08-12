@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const PlaceList = () => {
@@ -10,17 +9,25 @@ const PlaceList = () => {
     axios.get('/api/places')
       .then(response => {
         setPlaces(response.data);
-        setIsLoading(false); // Marquer le chargement comme terminé
+        setIsLoading(false);
       })
       .catch(error => {
         console.error('axios', error.response);
-        setIsLoading(false); // Marquer le chargement comme terminé même en cas d'erreur
+        setIsLoading(false);
       });
   }, []);
 
-  useEffect(() => {
-    console.log(places); // Affichez les données à chaque fois qu'elles changent
-  }, [places]);
+  const handleDelete = (id) => {
+    axios.delete(`/api/places/${id}`)
+      .then(response => {
+        console.log(response.data);
+        // Rechargez simplement la page pour refléter la suppression
+        window.location.reload();
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
 
   if (isLoading) {
     return <p>Chargement en cours...</p>;
@@ -33,9 +40,7 @@ const PlaceList = () => {
         {places.map(place => (
           <li key={place._id}>
             {place.name} - {place.time} minutes - {place.tags}
-            <Link to={`/edit/${place._id}`}>
-              <button>Modifier</button>
-            </Link>
+            <button onClick={() => handleDelete(place._id)}>Supprimer</button>
           </li>
         ))}
       </ul>
