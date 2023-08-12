@@ -7,10 +7,11 @@ const PlaceList = () => {
   useEffect(() => {
     axios.get('/api/places')
       .then(response => {
+        console.log(response.data); // Vérifiez la réponse renvoyée par le serveur
         setPlaces(response.data);
       })
       .catch(error => {
-        console.error(error);
+        console.error('axios', error.response); // Affichez les détails de l'erreur
       });
   }, []);
 
@@ -19,7 +20,7 @@ const PlaceList = () => {
       <h2>Liste des lieux de balade</h2>
       <ul>
         {places.map(place => (
-          <li key={place._id}>{place.name} - {place.time} minutes</li>
+          <li key={place._id}>{place.name} - {place.time} minutes - {place.tags}</li>
         ))}
       </ul>
     </div>

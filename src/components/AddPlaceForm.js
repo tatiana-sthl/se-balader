@@ -4,11 +4,13 @@ import axios from 'axios';
 const AddPlaceForm = () => {
   const [name, setName] = useState('');
   const [time, setTime] = useState('');
+  const [tags, setTags] = useState('');
+
 
   const handleSubmit = event => {
     event.preventDefault();
 
-    const newPlace = { name, time: parseInt(time) };
+    const newPlace = { name, time: parseInt(time), tags };
 
     axios.post('/api/places', newPlace)
       .then(response => {
@@ -28,6 +30,9 @@ const AddPlaceForm = () => {
 
         <label>Temps de balade:</label>
         <input type="number" value={time} onChange={e => setTime(e.target.value)} />
+
+        <label>Tags:</label>
+        <input type="text" value={tags} onChange={e => setTags(e.target.value)} />
 
         <button type="submit">Ajouter</button>
       </form>

@@ -16,9 +16,9 @@ const App = () => {
         </nav>
 
         <Routes> 
-          <Route path="/add" component={AddPlaceForm} />
-          <Route path="/edit/:id" component={EditPlaceForm} />
-          <Route path="/" component={PlaceList} />
+        <Route path="/add" element={<AddPlaceForm />} />
+          <Route path="/edit/:id" element={<EditPlaceForm />} />
+          <Route path="/" element={<PlaceList />} />
         </Routes>
       </div>
     </Router>
