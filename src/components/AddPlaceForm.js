@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 
 const AddPlaceForm = () => {
   const [name, setName] = useState('');
   const [time, setTime] = useState('');
   const [tags, setTags] = useState('');
 
+  const navigate = useNavigate();
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -19,6 +22,9 @@ const AddPlaceForm = () => {
       .catch(error => {
         console.error(error);
       });
+
+      navigate('/');
+
   };
 
   return (
