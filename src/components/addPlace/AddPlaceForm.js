@@ -15,7 +15,7 @@ const AddPlaceForm = () => {
   const handleSubmit = event => {
     event.preventDefault();
   
-    const newPlace = { name, time: parseInt(time), tags };
+    const newPlace = { name, time: parseInt(time), selectedImage, tags };
   
     const formData = new FormData();
     formData.append('name', newPlace.name);

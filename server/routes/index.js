@@ -1,6 +1,20 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
+const path = require('path');
 const Place = require('../models/place');
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'public/uploads/');
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({ storage });
 
 // Route pour obtenir la liste des lieux de balade
 router.get('/places', async (req, res) => {
@@ -26,12 +40,13 @@ router.get('/places/:id', async (req, res) => {
 });
 
 // Route pour créer un nouveau lieu de balade
-router.post('/places', async (req, res) => {
+router.post('/places', upload.single('image'), async (req, res) => {
   try {
     const newPlace = new Place({
       name: req.body.name,
-      tags: req.body.tags,
-      time: req.body.time
+      tags: JSON.parse(req.body.tags),
+      time: req.body.time,
+      imageUrl: req.file ? req.file.path : null // Stockez le chemin de l'image s'il existe
     });
     const savedPlace = await newPlace.save();
     res.json(savedPlace);

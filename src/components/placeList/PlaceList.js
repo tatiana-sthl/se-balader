@@ -54,6 +54,7 @@ const PlaceList = () => {
   };
 
   const openImageOverlay = imageUrl => {
+    console.log(imageUrl);
     setShowImageOverlay(true);
     setOverlayImageUrl(imageUrl);
   };
@@ -95,7 +96,7 @@ const PlaceList = () => {
       {showImageOverlay && (
         <div className="image-overlay">
           <div className="overlay-content">
-            <img src={overlayImageUrl} alt="Image en surimpression" />
+            <img src={`http://localhost:5000${places.imageUrl}`} alt="Plan de la promenade" />
             <button onClick={() => setShowImageOverlay(false)}>Fermer</button>
           </div>
         </div>
