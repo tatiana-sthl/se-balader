@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom'; 
-import PlaceList from './components/PlaceList';
-import AddPlaceForm from './components/AddPlaceForm';
-import EditPlaceForm from './components/EditPlaceForm';
+import PlaceList from './components/placeList/PlaceList';
+import AddPlaceForm from './components/addPlace/AddPlaceForm';
+import EditPlaceForm from './components/editPlace/EditPlaceForm';
 
 const App = () => {
   return (

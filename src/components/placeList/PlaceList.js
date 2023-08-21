@@ -8,11 +8,14 @@ const PlaceList = () => {
   const [filteredPlaces, setFilteredPlaces] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedTags, setSelectedTags] = useState([]);
+  const [showImageOverlay, setShowImageOverlay] = useState(false);
+  const [overlayImageUrl, setOverlayImageUrl] = useState('');
 
   useEffect(() => {
     axios.get('/api/places')
       .then(response => {
-        setPlaces(response.data);
+        // Ajouter une propriété imageUrl à chaque lieu de balade
+        setPlaces(response.data.map(place => ({ ...place, imageUrl: place.imageUrl || null })));
         setIsLoading(false);
       })
       .catch(error => {
@@ -42,7 +45,7 @@ const PlaceList = () => {
   const convertTime = minutes => {
     const hours = Math.floor(minutes / 60);
     const remainingMinutes = minutes % 60;
-  
+
     if (hours > 0) {
       return `${hours} h ${remainingMinutes} min`;
     } else {
@@ -50,9 +53,10 @@ const PlaceList = () => {
     }
   };
 
-  if (isLoading) {
-    return <p>Chargement en cours...</p>;
-  }
+  const openImageOverlay = imageUrl => {
+    setShowImageOverlay(true);
+    setOverlayImageUrl(imageUrl);
+  };
 
   return (
     <div>
@@ -82,9 +86,20 @@ const PlaceList = () => {
           <li key={place._id}>
             {place.name} - {convertTime(place.time)} - {place.tags.join(', ')}
             <button onClick={() => handleDelete(place._id)}>Supprimer</button>
+            {place.imageUrl && (
+              <button onClick={() => openImageOverlay(place.imageUrl)}>Afficher l'image</button>
+            )}
           </li>
         ))}
       </ul>
+      {showImageOverlay && (
+        <div className="image-overlay">
+          <div className="overlay-content">
+            <img src={overlayImageUrl} alt="Image en surimpression" />
+            <button onClick={() => setShowImageOverlay(false)}>Fermer</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

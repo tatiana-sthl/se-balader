@@ -12,6 +12,9 @@ const placeSchema = new mongoose.Schema({
   time: {
     type: Number,
     required: true
+  },
+  imageUrl: {
+    type: String
   }
 });
 
