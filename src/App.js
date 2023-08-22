@@ -8,12 +8,12 @@ const App = () => {
   return (
     <Router>
       <div>
-        <nav>
+        {/* <nav>
           <ul>
             <li><Link to="/">Accueil</Link></li>
             <li><Link to="/add">Ajouter un lieu</Link></li>
           </ul>
-        </nav>
+        </nav> */}
 
         <Routes> 
         <Route path="/add" element={<AddPlaceForm />} />

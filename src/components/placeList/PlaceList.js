@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import predefinedTags from '../../data/tags';
+import './_placeList.scss';
 
 
 const PlaceList = () => {
@@ -17,7 +18,6 @@ const PlaceList = () => {
   useEffect(() => {
     axios.get('/api/places')
       .then(response => {
-        // Ajouter une propriété imageUrl à chaque lieu de balade
         setPlaces(response.data.map(place => ({ ...place, imageUrl: place.imageUrl || null })));
         setIsLoading(false);
       })
@@ -67,7 +67,10 @@ const PlaceList = () => {
 
   return (
     <div>
-      <h2>Liste des lieux de balade</h2>
+      <div className='title'>
+        <h2 className='title__h2'>On va se promener où ?</h2>
+      </div>
+      <a><Link to="/add">Ajouter un lieu</Link></a>
       <div>
         <h4>Filtrer par tags:</h4>
         {predefinedTags.map(tag => (
