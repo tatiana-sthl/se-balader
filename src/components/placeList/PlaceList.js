@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import predefinedTags from '../../data/tags';
 
-const predefinedTags = ['Laisse obligatoire', 'Accessible par temps pluvieux', 'Accessible en période de chasse', 'Dans la forêt', 'En plaine', 'Accès à l\'eau'];
 
 const PlaceList = () => {
   const [places, setPlaces] = useState([]);
@@ -10,6 +11,8 @@ const PlaceList = () => {
   const [selectedTags, setSelectedTags] = useState([]);
   const [showImageOverlay, setShowImageOverlay] = useState(false);
   const [overlayImageUrl, setOverlayImageUrl] = useState('');
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios.get('/api/places')
@@ -54,9 +57,12 @@ const PlaceList = () => {
   };
 
   const openImageOverlay = imageUrl => {
-    console.log(imageUrl);
     setShowImageOverlay(true);
-    setOverlayImageUrl(imageUrl);
+    setOverlayImageUrl(`/uploads/${imageUrl}`);
+  };
+
+  const handleEdit = (id) => {
+    navigate(`/edit/${id}`);
   };
 
   return (
@@ -90,6 +96,7 @@ const PlaceList = () => {
             {place.imageUrl && (
               <button onClick={() => openImageOverlay(place.imageUrl)}>Afficher l'image</button>
             )}
+            <button onClick={() => handleEdit(place._id)}>Modifier</button>
           </li>
         ))}
       </ul>

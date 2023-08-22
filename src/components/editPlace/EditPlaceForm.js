@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import predefinedTags from '../../data/tags';
 
 const EditPlaceForm = () => {
   const { id } = useParams(); // Obtient l'ID du lieu depuis l'URL
@@ -50,7 +51,23 @@ const EditPlaceForm = () => {
         <input type="number" value={time} onChange={e => setTime(e.target.value)} />
 
         <label>Tags:</label>
-        <input type="text" value={tags} onChange={e => setTags(e.target.value)} />
+        {predefinedTags.map(tag => (
+          <div key={tag}>
+            <input
+              type="checkbox"
+              value={tag}
+              checked={tags.includes(tag)}
+              onChange={e => {
+                if (e.target.checked) {
+                  setTags([...tags, tag]);
+                } else {
+                  setTags(tags.filter(t => t !== tag));
+                }
+              }}
+            />
+            <label>{tag}</label>
+          </div>
+        ))}
 
         <button type="submit">Enregistrer</button>
       </form>
